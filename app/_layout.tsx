@@ -23,7 +23,6 @@ if (!publishableKey) {
     'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env'
   );
 }
-
 LogBox.ignoreLogs(['Clerk: Clerk has been loaded with development keys']);
 
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
