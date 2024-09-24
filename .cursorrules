@@ -34,3 +34,13 @@
   - Use Expo Tools: Utilize Expo's EAS Build and Updates for continuous deployment and Over-The-Air (OTA) updates.
   - Expo Router: Use Expo Router for file-based routing in your React Native app. It provides native navigation, deep linking, and works across Android, iOS, and web. Refer to the official documentation for setup and usage: https://docs.expo.dev/router/introduction/
     
+
+  File Structure:
+  - app: Contains the main app logic, hooks, and components.
+  - components: Reusable UI components.
+  - constants: Constants and configuration.
+  - hooks: Custom hooks.
+  - styles: Global styles and theme.
+  - utils: Utility functions and helpers.
+  - types: Type definitions.
+  - assets: Static assets like images, fonts, and icons.

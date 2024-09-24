@@ -10,7 +10,7 @@ import Animated, {
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 const Page = () => {
-  const users = useQuery(api.users.get);
+  // const users = useQuery(api.users.get);
   const navigation = useNavigation();
 
   // Create a shared value to store the scroll offset

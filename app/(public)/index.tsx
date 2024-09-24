@@ -10,8 +10,8 @@ import { useQuery } from 'convex/react';
 
 const LoginScreen = () => {
   const { startOAuthFlow } = useOAuth({ strategy: 'oauth_facebook' });
-  const users = useQuery(api.users.get);
-  console.log('🚀 ~ LoginScreen ~ users:', users);
+  // const users = useQuery(api.users.get);
+  // console.log('🚀 ~ LoginScreen ~ users:', users);
 
   const handleFacebookLogin = async () => {
     try {

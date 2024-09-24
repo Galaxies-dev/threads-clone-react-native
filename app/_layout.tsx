@@ -1,4 +1,4 @@
-import { Slot, useSegments } from 'expo-router';
+import { Slot, useNavigationContainerRef, useSegments } from 'expo-router';
 import {
   useFonts,
   DMSans_400Regular,
@@ -13,6 +13,7 @@ import { LogBox } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ConvexReactClient } from 'convex/react';
 import { ConvexProviderWithClerk } from 'convex/react-clerk';
+import * as Sentry from '@sentry/react-native';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,6 +28,30 @@ LogBox.ignoreLogs(['Clerk: Clerk has been loaded with development keys']);
 
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
   unsavedChangesWarning: false,
+});
+
+// Construct a new instrumentation instance. This is needed to communicate between the integration and React
+const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
+
+Sentry.init({
+  dsn: 'https://8ed09ff71f89190c07086b78b7063877@o106619.ingest.us.sentry.io/4508001066483712',
+  debug: false, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+  tracesSampleRate: 1.0,
+  _experiments: {
+    // Here, we'll capture profiles for 100% of transactions.
+    profilesSampleRate: 1.0,
+    // Session replays
+    replaysSessionSampleRate: 1.0,
+    replaysOnErrorSampleRate: 1.0,
+  },
+  integrations: [
+    new Sentry.ReactNativeTracing({
+      // Pass instrumentation to be used as `routingInstrumentation`
+      routingInstrumentation,
+      enableNativeFramesTracking: true,
+    }),
+    Sentry.mobileReplayIntegration(),
+  ],
 });
 
 const InitialLayout = () => {
@@ -61,6 +86,14 @@ const InitialLayout = () => {
 };
 
 const RootLayoutNav = () => {
+  const ref = useNavigationContainerRef();
+
+  useEffect(() => {
+    if (ref) {
+      routingInstrumentation.registerNavigationContainer(ref);
+    }
+  }, [ref]);
+
   return (
     <ClerkProvider publishableKey={publishableKey!} tokenCache={tokenCache}>
       <ClerkLoaded>
@@ -72,4 +105,4 @@ const RootLayoutNav = () => {
   );
 };
 
-export default RootLayoutNav;
+export default Sentry.wrap(RootLayoutNav);

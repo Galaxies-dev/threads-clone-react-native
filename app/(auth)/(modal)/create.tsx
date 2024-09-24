@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import ThreadComposer from '@/components/ThreadComposer';
+import { StyleSheet, Text, View, Button } from 'react-native';
 const Page = () => {
   return (
     <View>
-      <Text>Create post</Text>
+      <ThreadComposer onSubmit={() => {}} />
     </View>
   );
 };
