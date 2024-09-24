@@ -76,7 +76,7 @@ const InitialLayout = () => {
     const inTabsGroup = segments[0] === '(auth)';
 
     if (isSignedIn && !inTabsGroup) {
-      router.replace('/(auth)/(tabs)');
+      router.replace('/(auth)/(tabs)/feed');
     } else if (!isSignedIn && inTabsGroup) {
       router.replace('/(public)');
     }

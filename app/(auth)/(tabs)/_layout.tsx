@@ -23,7 +23,7 @@ const Layout = () => {
         tabBarActiveTintColor: '#000',
       }}>
       <Tabs.Screen
-        name="index"
+        name="feed"
         options={{
           title: 'Home',
           tabBarIcon: ({ color, size, focused }) => (
@@ -34,6 +34,7 @@ const Layout = () => {
               <Text style={styles.logoutText}>Log out</Text>
             </TouchableOpacity>
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen

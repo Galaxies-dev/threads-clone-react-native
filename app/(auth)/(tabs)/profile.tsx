@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { UserProfile } from '@/components/UserProfile';
 import { useUser } from '@clerk/clerk-react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,11 +7,26 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Tabs from '@/components/Tabs'; // Import the Tabs component
 import { useState } from 'react';
 import { Colors } from '@/constants/Colors';
+import { usePaginatedQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { useUserProfile } from '@/hooks/useUserProfile';
+import { FlashList } from '@shopify/flash-list';
+import Thread from '@/components/Thread';
+import { Doc } from '@/convex/_generated/dataModel';
+import { Link } from 'expo-router';
 
 export default function ProfileScreen() {
   const { user } = useUser();
   const { top } = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState('Threads');
+  const { userProfile } = useUserProfile();
+
+  const { results, status, loadMore } = usePaginatedQuery(
+    api.messages.getThreads,
+    { userId: userProfile?._id },
+    { initialNumItems: 10 }
+  );
+  console.log('iser threads; ', results);
 
   const handleTabChange = (tab: any) => {
     setActiveTab(tab);
@@ -30,7 +45,20 @@ export default function ProfileScreen() {
       <Tabs onTabChange={handleTabChange} />
 
       <View style={styles.tabContent}>
-        <Text style={styles.tabContentText}>You haven't posted anything yet.</Text>
+        {results.length === 0 && (
+          <Text style={styles.tabContentText}>You haven't posted anything yet.</Text>
+        )}
+        <FlashList
+          data={results}
+          renderItem={({ item }) => (
+            <Link href={`/feed/${item._id}`} asChild>
+              <TouchableOpacity>
+                <Thread thread={item as Doc<'messages'> & { creator: Doc<'users'> }} />
+              </TouchableOpacity>
+            </Link>
+          )}
+          estimatedItemSize={200}
+        />
       </View>
     </ScrollView>
   );
@@ -53,8 +81,6 @@ const styles = StyleSheet.create({
   },
   tabContent: {
     flex: 1,
-    alignItems: 'center',
-    padding: 16,
   },
   tabContentText: {
     fontSize: 16,

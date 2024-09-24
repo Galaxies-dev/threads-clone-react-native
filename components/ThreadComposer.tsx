@@ -18,14 +18,14 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import * as ImagePicker from 'expo-image-picker';
 
-interface ThreadComposerProps {
-  onSubmit: (content: string) => void;
-}
+type ThreadComposerProps = {
+  isPreview?: boolean;
+};
 
-const ThreadComposer: React.FC<ThreadComposerProps> = ({ onSubmit }) => {
+const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview }) => {
   const router = useRouter();
   const [threadContent, setThreadContent] = useState('');
-  const { userProfile } = useUserProfile(); // Assume this hook fetches the current user's data
+  const { userProfile } = useUserProfile();
   const inputAccessoryViewID = 'uniqueID';
   const addThread = useMutation(api.messages.addThread);
   const [mediaFiles, setMediaFiles] = useState<ImagePicker.ImagePickerAsset[]>([]);
@@ -108,7 +108,20 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ onSubmit }) => {
   };
 
   return (
-    <>
+    <TouchableOpacity
+      onPress={() => {
+        router.push('/(auth)/(modal)/create');
+      }}
+      style={
+        isPreview && {
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          height: 100,
+          pointerEvents: 'box-only',
+        }
+      }>
       <Stack.Screen
         options={{
           headerLeft: () => (
@@ -130,7 +143,7 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ onSubmit }) => {
             value={threadContent}
             onChangeText={setThreadContent}
             multiline
-            autoFocus
+            autoFocus={!isPreview}
             inputAccessoryViewID={inputAccessoryViewID}
           />
           {mediaFiles.length > 0 && (
@@ -169,7 +182,9 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ onSubmit }) => {
           </View>
         </View>
 
-        <TouchableOpacity onPress={removeThread} style={styles.cancelButton}>
+        <TouchableOpacity
+          onPress={removeThread}
+          style={[styles.cancelButton, { opacity: isPreview ? 0 : 1 }]}>
           <Ionicons name="close" size={24} color={Colors.border} />
         </TouchableOpacity>
       </View>
@@ -184,7 +199,7 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ onSubmit }) => {
           </TouchableOpacity>
         </View>
       </InputAccessoryView>
-    </>
+    </TouchableOpacity>
   );
 };
 
@@ -195,6 +210,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     padding: 12,
     gap: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Colors.border,
   },
   avatar: {
     width: 40,

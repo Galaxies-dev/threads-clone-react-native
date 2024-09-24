@@ -16,5 +16,4 @@ npm install promise
 
 # pod repo update
 
-npm i @tanstack/react-query
-npm i -D @tanstack/eslint-plugin-query
+npx expo install @shopify/flash-list
