@@ -12,6 +12,7 @@ export const User = {
   location: v.optional(v.string()),
   websiteUrl: v.optional(v.string()),
   followersCount: v.number(),
+  pushToken: v.optional(v.string()),
 };
 
 export const Message = {
@@ -26,6 +27,8 @@ export const Message = {
 };
 
 export default defineSchema({
-  users: defineTable(User).index('byClerkId', ['clerkId']),
+  users: defineTable(User).index('byClerkId', ['clerkId']).searchIndex('searchUsers', {
+    searchField: 'username',
+  }),
   messages: defineTable(Message),
 });

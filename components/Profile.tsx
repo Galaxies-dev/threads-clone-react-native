@@ -13,7 +13,7 @@ import Thread from '@/components/Thread';
 import { Doc, Id } from '@/convex/_generated/dataModel';
 import { Link } from 'expo-router';
 import { useRouter } from 'expo-router';
-
+import { useAuth } from '@clerk/clerk-expo';
 type ProfileProps = {
   userId?: Id<'users'>;
   showBackButton?: boolean;
@@ -24,6 +24,7 @@ export default function Profile({ userId, showBackButton = false }: ProfileProps
   const [activeTab, setActiveTab] = useState('Threads');
   const { userProfile } = useUserProfile();
   const router = useRouter();
+  const { signOut } = useAuth();
 
   const { results, status, loadMore } = usePaginatedQuery(
     api.messages.getThreads,
@@ -37,9 +38,6 @@ export default function Profile({ userId, showBackButton = false }: ProfileProps
 
   return (
     <View style={[styles.container, { paddingTop: top }]}>
-      {results.length === 0 && (
-        <Text style={styles.tabContentText}>You haven't posted anything yet.</Text>
-      )}
       <FlatList
         data={results}
         renderItem={({ item }) => (
@@ -48,6 +46,12 @@ export default function Profile({ userId, showBackButton = false }: ProfileProps
               <Thread thread={item as Doc<'messages'> & { creator: Doc<'users'> }} />
             </TouchableOpacity>
           </Link>
+        )}
+        ListEmptyComponent={
+          <Text style={styles.tabContentText}>You haven't posted anything yet.</Text>
+        }
+        ItemSeparatorComponent={() => (
+          <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: Colors.border }} />
         )}
         ListHeaderComponent={
           <>
@@ -62,7 +66,9 @@ export default function Profile({ userId, showBackButton = false }: ProfileProps
               )}
               <View style={styles.headerIcons}>
                 <Ionicons name="logo-instagram" size={24} color="black" />
-                <MaterialCommunityIcons name="text-short" size={24} color="black" />
+                <TouchableOpacity onPress={() => signOut()}>
+                  <Ionicons name="log-out-outline" size={24} color="black" />
+                </TouchableOpacity>
               </View>
             </View>
             {userId ? <UserProfile userId={userId} /> : <UserProfile userId={userProfile?._id} />}
@@ -78,6 +84,7 @@ export default function Profile({ userId, showBackButton = false }: ProfileProps
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    flex: 1,
   },
   header: {
     flexDirection: 'row',
@@ -94,6 +101,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 16,
     color: Colors.border,
+    alignSelf: 'center',
   },
   backButton: {
     flexDirection: 'row',

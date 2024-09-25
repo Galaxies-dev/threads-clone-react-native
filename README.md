@@ -1,50 +1,72 @@
-# Welcome to your Expo app 👋
+# React Native Threads Clone with Clerk, Convex & Sentry
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native Threads clone using [Clerk](https://go.clerk.com/WKHSBp0) for user authentication and [Convex](https://supabase.com/?utm_source=youtube&utm_medium=referral&utm_campaign=yt-collab-trello-clone) for all backend logic.
 
-## Get started
+For improved debuggability, we've added [Sentry] to the project.
 
-1. Install dependencies
+Additional features:
 
-   ```bash
-   npm install
-   ```
+- [Expo Router](https://docs.expo.dev/routing/introduction/) file-based navigation
+- [Convex Database](https://docs.convex.dev/database) for data storage
+- [Convex File Storage](https://docs.convex.dev/file-storage) for file storage
+- [Convex Actions](https://supabase.com/edge-functions) for push notifications
+- [Sentry](https://docs.sentry.io/platforms/javascript/react-native/) for error tracking
+- [Haptics](https://docs.expo.dev/versions/latest/sdk/haptics/) for haptic feedback
+- [Expo Notifications](https://docs.expo.dev/versions/latest/sdk/notifications/) for push notifications
+- [Reanimated](https://docs.swmansion.com/react-native-reanimated/) for powerful animations
+- [Image Zoom](https://github.com/likashefqet/react-native-image-zoom) for image zoom component
 
-2. Start the app
+## App Screenshots
 
-   ```bash
-    npx expo start
-   ```
+<div style="display: flex; flex-direction: 'row';">
+<img src="./screenshots/1.png" width=30%>
+<img src="./screenshots/2.png" width=30%>
+<img src="./screenshots/3.png" width=30%>
+<img src="./screenshots/4.png" width=30%>
+<img src="./screenshots/5.png" width=30%>
+<img src="./screenshots/6.png" width=30%>
+<img src="./screenshots/7.png" width=30%>
+<img src="./screenshots/8.png" width=30%>
+<img src="./screenshots/9.png" width=30%>
+</div>
 
-In the output, you'll find options to open the app in a
+## Convex Screenshots
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+<div style="display: flex; flex-direction: 'row';">
+<img src="./screenshots/convex1.png" width=100%>
+<img src="./screenshots/convex2.png" width=100%>
+<img src="./screenshots/convex3.png" width=100%>
+<img src="./screenshots/convex4.png" width=100%>
+<img src="./screenshots/convex5.png" width=100%>
+</div>
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Sentry Screenshots
 
-## Get a fresh project
+<div style="display: flex; flex-direction: 'row';">
+<img src="./screenshots/sentry1.png" width=100%>
+<img src="./screenshots/sentry2.png" width=100%>
+<img src="./screenshots/sentry3.png" width=100%>
 
-When you're ready, run:
+</div>
 
-```bash
-npm run reset-project
-```
+## Demo
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+<div style="display: flex; flex-direction: 'row';">
+<img src="./screenshots/tabbar.gif" width=30%>
+<img src="./screenshots/comment.gif" width=30%>
+<img src="./screenshots/search.gif" width=30%>
+<img src="./screenshots/post.gif" width=30%>
+<img src="./screenshots/profile.gif" width=30%>
+<img src="./screenshots/imagezoom.gif" width=30%>
 
-## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+</div>
 
-## Join the community
+## 🚀 More
 
-Join our community of developers creating universal apps.
+**Take a shortcut from web developer to mobile development fluency with guided learning**
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Enjoyed this project? Learn to use React Native to build production-ready, native mobile apps for both iOS and Android based on your existing web development skills.
+
+<a href="https://galaxies.dev"><img src="banner.png" height="auto" width="100%"></a>

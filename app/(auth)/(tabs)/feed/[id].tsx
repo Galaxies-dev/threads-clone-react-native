@@ -16,15 +16,16 @@ import Comments from '@/components/Comments';
 
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { Colors } from '@/constants/Colors';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+
 const Page = () => {
   const { id } = useLocalSearchParams();
   const thread = useQuery(api.messages.getThreadById, { messageId: id as Id<'messages'> });
   const { userProfile } = useUserProfile();
-  console.log('🚀 ~ Page ~ id:', id);
-  console.log('🚀 ~ Page ~ thread:', thread);
+  const tabBarHeight = useBottomTabBarHeight();
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flexGrow: 1, marginBottom: 0 }}>
       <ScrollView>
         {thread ? (
           <Thread thread={thread as Doc<'messages'> & { creator: Doc<'users'> }} />

@@ -14,13 +14,18 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.supersimon.threads"
+      "bundleIdentifier": "com.supersimon.threads",
+      "entitlements": {
+        "aps-environment": "development"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": ["android.permission.RECORD_AUDIO"],
+      "package": "com.supersimon.threads"
     },
     "web": {
       "bundler": "metro",
@@ -49,6 +54,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "5608065f-af9c-463a-b3cf-e0ddf141b5d8"
+      }
     }
   }
 }

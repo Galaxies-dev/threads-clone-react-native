@@ -5,6 +5,8 @@ import { useAuth } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
+import { usePush } from '@/hooks/usePush';
+import * as Haptics from 'expo-haptics';
 
 const CreateTabIcon = ({ color, size }: { color: string; size: number }) => (
   <View style={styles.createIconContainer}>
@@ -15,6 +17,7 @@ const CreateTabIcon = ({ color, size }: { color: string; size: number }) => (
 const Layout = () => {
   const { signOut } = useAuth();
   const router = useRouter();
+  usePush();
 
   return (
     <Tabs
@@ -44,6 +47,7 @@ const Layout = () => {
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons name={focused ? 'search' : 'search-outline'} size={size} color={color} />
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -55,6 +59,7 @@ const Layout = () => {
         listeners={{
           tabPress: (e) => {
             e.preventDefault();
+            Haptics.selectionAsync();
             router.push('/(modal)/create');
           },
         }}

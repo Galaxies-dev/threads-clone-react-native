@@ -14,7 +14,7 @@ type ThreadProps = {
 
 const Thread = ({ thread }: ThreadProps) => {
   const { content, mediaFiles, likeCount, commentCount, retweetCount, creator } = thread;
-  const likeThred = useMutation(api.messages.likeThread);
+  const likeThread = useMutation(api.messages.likeThread);
 
   return (
     <View style={styles.container}>
@@ -45,14 +45,21 @@ const Thread = ({ thread }: ThreadProps) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.mediaContainer}>
             {mediaFiles.map((imageUrl, index) => (
-              <Image source={{ uri: imageUrl }} style={styles.mediaImage} key={index} />
+              <Link
+                href={`/(auth)/(modal)/image/${encodeURIComponent(imageUrl)}?threadId=${thread._id}&likeCount=${likeCount}&commentCount=${commentCount}&retweetCount=${retweetCount}`}
+                key={index}
+                asChild>
+                <TouchableOpacity>
+                  <Image source={{ uri: imageUrl }} style={styles.mediaImage} />
+                </TouchableOpacity>
+              </Link>
             ))}
           </ScrollView>
         )}
         <View style={styles.actions}>
           <TouchableOpacity
             style={styles.actionButton}
-            onPress={() => likeThred({ messageId: thread._id })}>
+            onPress={() => likeThread({ messageId: thread._id })}>
             <Ionicons name="heart-outline" size={24} color="black" />
             <Text style={styles.actionText}>{likeCount}</Text>
           </TouchableOpacity>

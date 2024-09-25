@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreadComposer from '@/components/ThreadComposer';
 import { useCallback, useState } from 'react';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { Colors } from '@/constants/Colors';
 
 const Page = () => {
   const { results, status, loadMore } = usePaginatedQuery(
@@ -96,6 +97,9 @@ const Page = () => {
           <ThreadComposer isPreview />
         </View>
       }
+      ItemSeparatorComponent={() => (
+        <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: Colors.border }} />
+      )}
       contentContainerStyle={{ paddingVertical: top }}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     />

@@ -14,7 +14,7 @@ import { FontAwesome6, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { Stack, useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
-import { useMutation, useQuery } from 'convex/react';
+import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import * as ImagePicker from 'expo-image-picker';
 import { Id } from '@/convex/_generated/dataModel';
@@ -36,7 +36,7 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview, isReply, thr
 
   const handleSubmit = async () => {
     const mediaStorageIds = await Promise.all(mediaFiles.map((file) => uploadMediaFile(file)));
-    addThread({ content: threadContent, mediaFiles: mediaStorageIds, threadId });
+    addThread({ threadId, content: threadContent, mediaFiles: mediaStorageIds });
     setThreadContent('');
     setMediaFiles([]);
     router.dismiss();
@@ -76,6 +76,8 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview, isReply, thr
     let result;
 
     if (source === 'camera') {
+      const permission = await ImagePicker.requestCameraPermissionsAsync();
+
       result = await ImagePicker.launchCameraAsync(options);
     } else {
       result = await ImagePicker.launchImageLibraryAsync(options);

@@ -57,7 +57,10 @@ export const createUser = internalMutation({
     followersCount: v.number(),
   },
   handler: async (ctx, args) => {
-    const userId = await ctx.db.insert('users', args);
+    const userId = await ctx.db.insert('users', {
+      ...args,
+      username: args.username || `${args.first_name}${args.last_name}`,
+    });
     return userId;
   },
 });
@@ -68,6 +71,7 @@ export const updateUser = mutation({
     bio: v.optional(v.string()),
     websiteUrl: v.optional(v.string()),
     profilePicture: v.optional(v.string()),
+    pushToken: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     await getCurrentUserOrThrow(ctx);
@@ -89,6 +93,33 @@ export const updateImage = mutation({
     await ctx.db.patch(args._id, {
       imageUrl: args.storageId,
     });
+  },
+});
+
+export const searchUsers = query({
+  args: {
+    search: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const users = await ctx.db
+      .query('users')
+      .withSearchIndex('searchUsers', (q) => q.search('username', args.search))
+      .collect();
+
+    const usersWithImage = await Promise.all(
+      users.map(async (user) => {
+        if (!user?.imageUrl || user.imageUrl.startsWith('http')) {
+          user.imageUrl;
+          return user;
+        }
+
+        const url = await ctx.storage.getUrl(user.imageUrl as Id<'_storage'>);
+        user.imageUrl = url!;
+        return user;
+      })
+    );
+
+    return usersWithImage;
   },
 });
 
