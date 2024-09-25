@@ -1,11 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
 const Page = () => {
-  const { id } = useLocalSearchParams();
-  console.log('🚀 ~ Page ~ id:', id);
   return (
     <View>
-      <Text>Details</Text>
+      <Text>PROFILE</Text>
     </View>
   );
 };

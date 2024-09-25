@@ -6,6 +6,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
+  RefreshControl,
 } from 'react-native';
 import { usePaginatedQuery, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
@@ -16,20 +18,19 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { FlashList } from '@shopify/flash-list';
 import Thread from '@/components/Thread';
 import { Doc } from '@/convex/_generated/dataModel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreadComposer from '@/components/ThreadComposer';
+import { useState } from 'react';
 
 const Page = () => {
   const { results, status, loadMore } = usePaginatedQuery(
     api.messages.getThreads,
     {},
-    { initialNumItems: 10 }
+    { initialNumItems: 5 }
   );
-  console.log(results);
-
+  const [refreshing, setRefreshing] = useState(false);
   const { top } = useSafeAreaInsets();
 
   const navigation = useNavigation();
@@ -45,7 +46,7 @@ const Page = () => {
       newMarginBottom = -tabBarHeight;
     }
 
-    navigation.setOptions({ tabBarStyle: { marginBottom: newMarginBottom } });
+    navigation.getParent()?.setOptions({ tabBarStyle: { marginBottom: newMarginBottom } });
   };
 
   // Create an animated scroll handler
@@ -57,33 +58,43 @@ const Page = () => {
   });
 
   const onLoadmore = () => {
-    console.log('load more');
+    loadMore(5);
+  };
 
-    // loadMore(10);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
   };
 
   return (
-    <Animated.ScrollView
+    <Animated.FlatList
+      showsVerticalScrollIndicator={false}
       onScroll={scrollHandler}
       scrollEventThrottle={16}
-      style={{ marginTop: top }}
-      showsVerticalScrollIndicator={false}>
-      <ThreadComposer isPreview />
-      <FlashList
-        data={results}
-        renderItem={({ item }) => (
-          <Link href={`/feed/${item._id}`} asChild>
-            <TouchableOpacity>
-              <Thread thread={item as Doc<'messages'> & { creator: Doc<'users'> }} />
-            </TouchableOpacity>
-          </Link>
-        )}
-        onEndReached={onLoadmore}
-        onEndReachedThreshold={0.5}
-        estimatedItemSize={200}
-        contentContainerStyle={{ paddingTop: 16 }}
-      />
-    </Animated.ScrollView>
+      data={results}
+      renderItem={({ item }) => (
+        <Link href={`/feed/${item._id}`} asChild>
+          <TouchableOpacity>
+            <Thread thread={item as Doc<'messages'> & { creator: Doc<'users'> }} />
+          </TouchableOpacity>
+        </Link>
+      )}
+      onEndReached={onLoadmore}
+      onEndReachedThreshold={0.5}
+      ListHeaderComponent={
+        <View style={{ paddingBottom: 16 }}>
+          <Image
+            source={require('@/assets/images/threads-logo-black.png')}
+            style={{ width: 40, height: 40, alignSelf: 'center' }}
+          />
+          <ThreadComposer isPreview />
+        </View>
+      }
+      contentContainerStyle={{ paddingVertical: top }}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+    />
   );
 };
 export default Page;

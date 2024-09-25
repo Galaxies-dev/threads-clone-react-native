@@ -10,6 +10,9 @@ npm install convex
 npx convex dev
 npx convex import --table messages testData.jsonl 
 
+# npx convex import --append --table users testUser.jsonl
+# npx convex import --append --table messages testMessages.jsonl
+
 npm install @sentry/react-native
 npm uninstall promise
 npm install promise

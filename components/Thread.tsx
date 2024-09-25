@@ -6,6 +6,7 @@ import { Doc } from '@/convex/_generated/dataModel';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Colors } from '@/constants/Colors';
+import { Link } from 'expo-router';
 
 type ThreadProps = {
   thread: Doc<'messages'> & { creator: Doc<'users'> };
@@ -22,9 +23,11 @@ const Thread = ({ thread }: ThreadProps) => {
       <View style={{ flex: 1 }}>
         <View style={styles.header}>
           <View style={styles.headerText}>
-            <Text style={styles.username}>
-              {creator?.first_name} {creator?.last_name}
-            </Text>
+            <Link href={`/feed/profile/${creator?._id}`} asChild>
+              <Text style={styles.username}>
+                {creator?.first_name} {creator?.last_name}
+              </Text>
+            </Link>
             <Text style={styles.timestamp}>
               {new Date(thread._creationTime).toLocaleDateString()}
             </Text>
