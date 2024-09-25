@@ -16,6 +16,33 @@ Additional features:
 - [Reanimated](https://docs.swmansion.com/react-native-reanimated/) for powerful animations
 - [Image Zoom](https://github.com/likashefqet/react-native-image-zoom) for image zoom component
 
+## Setup
+
+To build the app, perform the following steps:
+
+1. Clone the repository
+2. Run `npm install`
+3. Run `npx expo prebuild`
+4. Run `npx expo run:ios` or `npx expo run:android`
+
+For Convex, you need to import the database from the `db.zip` file after setting up your Convex project.
+
+```sh
+npx convex import db.zip   
+```
+
+Finally, make sure to update the `DUMMY.env` file with your own Clerk and Convex credentials and rename it to `.env`.
+
+## Push Notifications
+
+For Push Notifications, you need to set up the Expo Push Notifications like presented in the video.
+
+Then, add the access key to the Convex environment variables:
+
+```sh
+npx convex env set EXPO_ACCESS_TOKEN your-api-key
+```
+
 ## App Screenshots
 
 <div style="display: flex; flex-direction: 'row';">
