@@ -14,15 +14,18 @@ import { FontAwesome6, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { Stack, useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
-import { useMutation } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import * as ImagePicker from 'expo-image-picker';
+import { Id } from '@/convex/_generated/dataModel';
 
 type ThreadComposerProps = {
   isPreview?: boolean;
+  isReply?: boolean;
+  threadId?: Id<'messages'>;
 };
 
-const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview }) => {
+const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview, isReply, threadId }) => {
   const router = useRouter();
   const [threadContent, setThreadContent] = useState('');
   const { userProfile } = useUserProfile();
@@ -33,7 +36,7 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview }) => {
 
   const handleSubmit = async () => {
     const mediaStorageIds = await Promise.all(mediaFiles.map((file) => uploadMediaFile(file)));
-    addThread({ content: threadContent, mediaFiles: mediaStorageIds });
+    addThread({ content: threadContent, mediaFiles: mediaStorageIds, threadId });
     setThreadContent('');
     setMediaFiles([]);
     router.dismiss();
@@ -102,8 +105,6 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview }) => {
       body: blob,
     });
     const { storageId } = await result.json();
-    console.log('🚀 ~ updateProfilePicture ~ storageId:', storageId);
-    // Step 3: Save the newly allocated storage id to the database
     return storageId;
   };
 
@@ -139,7 +140,7 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview }) => {
           </Text>
           <TextInput
             style={styles.input}
-            placeholder="What's new?"
+            placeholder={isReply ? 'Reply to thread' : "What's new?"}
             value={threadContent}
             onChangeText={setThreadContent}
             multiline
@@ -192,7 +193,9 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview }) => {
       <InputAccessoryView nativeID={inputAccessoryViewID}>
         <View style={[styles.keyboardAccessory]}>
           <Text style={styles.keyboardAccessoryText}>
-            Profiles that you follow can reply and quote
+            {isReply
+              ? 'Everyone can reply and quote'
+              : ' Profiles that you follow can reply and quote'}
           </Text>
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>Post</Text>

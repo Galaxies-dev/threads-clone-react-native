@@ -1,14 +1,4 @@
-import {
-  Button,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  RefreshControl,
-} from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, RefreshControl } from 'react-native';
 import { usePaginatedQuery, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Link, useNavigation } from 'expo-router';
@@ -22,7 +12,8 @@ import Thread from '@/components/Thread';
 import { Doc } from '@/convex/_generated/dataModel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreadComposer from '@/components/ThreadComposer';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 
 const Page = () => {
   const { results, status, loadMore } = usePaginatedQuery(
@@ -37,6 +28,7 @@ const Page = () => {
   // Create a shared value to store the scroll offset
   const scrollOffset = useSharedValue(0);
   const tabBarHeight = useBottomTabBarHeight();
+  const isFocused = useIsFocused();
 
   const updateTabbar = () => {
     let newMarginBottom = 0;
@@ -52,8 +44,10 @@ const Page = () => {
   // Create an animated scroll handler
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
-      scrollOffset.value = event.contentOffset.y;
-      runOnJS(updateTabbar)();
+      if (isFocused) {
+        scrollOffset.value = event.contentOffset.y;
+        runOnJS(updateTabbar)();
+      }
     },
   });
 
@@ -67,6 +61,16 @@ const Page = () => {
       setRefreshing(false);
     }, 2000);
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      // Do something when the screen is focused
+
+      return () => {
+        navigation.getParent()?.setOptions({ tabBarStyle: { marginBottom: 0 } });
+      };
+    }, [])
+  );
 
   return (
     <Animated.FlatList

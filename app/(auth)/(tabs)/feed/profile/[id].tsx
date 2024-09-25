@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import Profile from '@/components/Profile';
+import { Id } from '@/convex/_generated/dataModel';
+
 const Page = () => {
-  return (
-    <View>
-      <Text>PROFILE</Text>
-    </View>
-  );
+  const { id } = useLocalSearchParams();
+
+  return <Profile userId={id as Id<'users'>} showBackButton />;
 };
 export default Page;
-const styles = StyleSheet.create({});

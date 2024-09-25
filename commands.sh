@@ -19,4 +19,3 @@ npm install promise
 
 # pod repo update
 
-npx expo install @shopify/flash-list

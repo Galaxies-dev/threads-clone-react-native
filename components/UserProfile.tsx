@@ -4,22 +4,16 @@ import { api } from '@/convex/_generated/api';
 import { Colors } from '@/constants/Colors';
 import { Link } from 'expo-router';
 import { useUserProfile } from '@/hooks/useUserProfile';
+import { Id } from '@/convex/_generated/dataModel';
 
 type UserProfileProps = {
-  clerkId?: string;
   userId?: string;
 };
 
-export const UserProfile = ({ clerkId, userId }: UserProfileProps) => {
-  let profile;
-
-  if (clerkId) {
-    const { userProfile } = useUserProfile();
-    profile = userProfile;
-  } else if (userId) {
-    // TODO
-    // profile = useQuery(api.users.getUserById, { userId });
-  }
+export const UserProfile = ({ userId }: UserProfileProps) => {
+  const profile = useQuery(api.users.getUserById, { userId: userId as Id<'users'> });
+  const { userProfile } = useUserProfile();
+  const isSelf = userProfile?._id === userId;
 
   return (
     <View style={styles.container}>
@@ -39,20 +33,35 @@ export const UserProfile = ({ clerkId, userId }: UserProfileProps) => {
       </Text>
 
       <View style={styles.buttonRow}>
-        <Link
-          href={`/(modal)/edit-profile?biostring=${
-            profile?.bio ? encodeURIComponent(profile?.bio) : ''
-          }&linkstring=${profile?.websiteUrl ? encodeURIComponent(profile?.websiteUrl) : ''}&userId=${
-            profile?._id
-          }&imageUrl=${profile?.imageUrl ? encodeURIComponent(profile?.imageUrl) : ''}`}
-          asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Edit profile</Text>
-          </TouchableOpacity>
-        </Link>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Share profile</Text>
-        </TouchableOpacity>
+        {isSelf && (
+          <>
+            <Link
+              href={`/(modal)/edit-profile?biostring=${
+                profile?.bio ? encodeURIComponent(profile?.bio) : ''
+              }&linkstring=${profile?.websiteUrl ? encodeURIComponent(profile?.websiteUrl) : ''}&userId=${
+                profile?._id
+              }&imageUrl=${profile?.imageUrl ? encodeURIComponent(profile?.imageUrl) : ''}`}
+              asChild>
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Edit profile</Text>
+              </TouchableOpacity>
+            </Link>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Share profile</Text>
+            </TouchableOpacity>
+          </>
+        )}
+
+        {!isSelf && (
+          <>
+            <TouchableOpacity style={styles.fullButton}>
+              <Text style={styles.fullButtonText}>Follow</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Mention</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     </View>
   );
@@ -105,5 +114,18 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: 'bold',
+  },
+  fullButton: {
+    flex: 1,
+    padding: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fullButtonText: {
+    fontWeight: 'bold',
+    color: 'white',
   },
 });

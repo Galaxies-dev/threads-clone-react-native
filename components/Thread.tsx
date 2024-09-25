@@ -19,7 +19,6 @@ const Thread = ({ thread }: ThreadProps) => {
   return (
     <View style={styles.container}>
       <Image source={{ uri: creator?.imageUrl }} style={styles.avatar} />
-
       <View style={{ flex: 1 }}>
         <View style={styles.header}>
           <View style={styles.headerText}>
@@ -79,10 +78,9 @@ export default Thread;
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.border,
     flexDirection: 'row',
   },
+
   header: {
     flexDirection: 'row',
     alignItems: 'center',
