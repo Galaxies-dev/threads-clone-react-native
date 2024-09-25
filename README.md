@@ -30,6 +30,18 @@ Additional features:
 <img src="./screenshots/9.png" width=30%>
 </div>
 
+## Demo
+
+<div style="display: flex; flex-direction: 'row';">
+<img src="./screenshots/tabbar.gif" width=30%>
+<img src="./screenshots/comment.gif" width=30%>
+<img src="./screenshots/search.gif" width=30%>
+<img src="./screenshots/post.gif" width=30%>
+<img src="./screenshots/profile.gif" width=30%>
+<img src="./screenshots/imagezoom.gif" width=30%>
+
+</div>
+
 ## Convex Screenshots
 
 <div style="display: flex; flex-direction: 'row';">
@@ -46,20 +58,6 @@ Additional features:
 <img src="./screenshots/sentry1.png" width=100%>
 <img src="./screenshots/sentry2.png" width=100%>
 <img src="./screenshots/sentry3.png" width=100%>
-
-</div>
-
-## Demo
-
-<div style="display: flex; flex-direction: 'row';">
-<img src="./screenshots/tabbar.gif" width=30%>
-<img src="./screenshots/comment.gif" width=30%>
-<img src="./screenshots/search.gif" width=30%>
-<img src="./screenshots/post.gif" width=30%>
-<img src="./screenshots/profile.gif" width=30%>
-<img src="./screenshots/imagezoom.gif" width=30%>
-
-
 
 </div>
 
