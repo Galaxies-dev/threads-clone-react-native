@@ -3,6 +3,8 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useOAuth } from '@clerk/clerk-expo';
+import { UserFeedback } from '@sentry/react-native';
+import * as Sentry from '@sentry/react-native';
 
 const LoginScreen = () => {
   const { startOAuthFlow } = useOAuth({ strategy: 'oauth_facebook' });
@@ -29,6 +31,23 @@ const LoginScreen = () => {
       }
     } catch (err) {
       console.error('OAuth error', err);
+    }
+  };
+
+  const triggerError = () => {
+    try {
+      throw new Error('This is a test error');
+    } catch (error) {
+      const sentryId = Sentry.captureMessage('Houston, we have a problem');
+
+      const userFeedback: UserFeedback = {
+        event_id: sentryId,
+        name: 'Simon Grimm',
+        email: 'simon@galaxies.dev',
+        comments: 'Enrich the error message with more information',
+      };
+
+      Sentry.captureUserFeedback(userFeedback);
     }
   };
 
@@ -73,7 +92,7 @@ const LoginScreen = () => {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={triggerError}>
             <Text style={styles.switchAccountButtonText}>Switch accounts</Text>
           </TouchableOpacity>
         </View>

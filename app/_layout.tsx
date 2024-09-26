@@ -1,4 +1,4 @@
-import { Slot, useNavigationContainerRef, useSegments } from 'expo-router';
+import { Slot, useNavigationContainerRef, useSegments, ErrorBoundary } from 'expo-router';
 import {
   useFonts,
   DMSans_400Regular,
@@ -7,7 +7,7 @@ import {
 } from '@expo-google-fonts/dm-sans';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { ClerkProvider, ClerkLoaded, useAuth } from '@clerk/clerk-expo';
+import { ClerkProvider, ClerkLoaded, useAuth, useUser } from '@clerk/clerk-expo';
 import { tokenCache } from '@/utils/cache';
 import { LogBox } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -35,6 +35,7 @@ const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
 
 Sentry.init({
   dsn: 'https://8ed09ff71f89190c07086b78b7063877@o106619.ingest.us.sentry.io/4508001066483712',
+  attachScreenshot: true,
   debug: false, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
   tracesSampleRate: 1.0,
   _experiments: {
@@ -63,6 +64,7 @@ const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
   const segments = useSegments();
   const router = useRouter();
+  const user = useUser();
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -76,11 +78,19 @@ const InitialLayout = () => {
     const inTabsGroup = segments[0] === '(auth)';
 
     if (isSignedIn && !inTabsGroup) {
-      router.replace('/(auth)/(tabs)/feed');
+      // router.replace('/(auth)/(tabs)/feed');
     } else if (!isSignedIn && inTabsGroup) {
       router.replace('/(public)');
     }
   }, [isSignedIn]);
+
+  useEffect(() => {
+    if (user && user.user) {
+      Sentry.setUser({ email: user.user.emailAddresses[0].emailAddress, id: user.user.id });
+    } else {
+      Sentry.setUser(null);
+    }
+  }, [user]);
 
   return <Slot />;
 };

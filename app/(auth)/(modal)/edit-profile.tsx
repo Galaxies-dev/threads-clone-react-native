@@ -6,6 +6,7 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import * as ImagePicker from 'expo-image-picker';
+import * as Sentry from '@sentry/react-native';
 
 const Page = () => {
   const { biostring, linkstring, userId, imageUrl } = useLocalSearchParams<{
@@ -27,6 +28,13 @@ const Page = () => {
 
   const onDone = async () => {
     updateUser({ _id: userId as Id<'users'>, bio, websiteUrl: link });
+    Sentry.captureEvent({
+      message: 'User Profile updated',
+      extra: {
+        bio,
+        link,
+      },
+    });
     if (selectedImage) {
       await updateProfilePicture();
     }
