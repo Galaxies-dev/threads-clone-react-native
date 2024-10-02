@@ -41,7 +41,32 @@ Then, add the access key to the Convex environment variables:
 
 ```sh
 npx convex env set EXPO_ACCESS_TOKEN your-api-key
+
 ```
+
+## Clerk Webhook
+
+You need to set up a webhook in Clerk to handle the user creation and update events.
+
+1. Go to [Clerk](https://clerk.com/) and select your project
+2. Go to **API** and select **Webhooks**
+3. Add the following webhook, which should point to your Convex instance and include the `user.created` and `user.deleted` events:
+
+<img src="./screenshots/webhook.png" width=100%>
+
+
+
+
+
+
+## Sentry Setup
+
+1. Create a [Sentry](https://sentry.io/welcome?utm_source=simongrimm&utm_medium=paid-community&utm_campaign=mobile-fy25q3-builders&utm_content=partner-react-native-mobile-learnmore&code=simongrimm) account and project
+2. Go to **Project Settings** and select **Client Keys**
+3. Copy the DSN and add it to the `.env` file
+
+<img src="./screenshots/dsn.png" width=100%>
+
 
 ## App Screenshots
 
