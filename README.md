@@ -1,8 +1,8 @@
 # React Native Threads Clone with Clerk, Convex & Sentry
 
-This is a React Native Threads clone using [Clerk](https://go.clerk.com/WKHSBp0) for user authentication and [Convex](https://supabase.com/?utm_source=youtube&utm_medium=referral&utm_campaign=yt-collab-trello-clone) for all backend logic.
+This is a React Native Threads clone using [Clerk](https://go.clerk.com/WKHSBp0) for user authentication and [Convex](https://convex.com/?utm_source=youtube&utm_medium=referral&utm_campaign=yt-collab-trello-clone) for all backend logic.
 
-For improved debuggability, we've added [Sentry] to the project.
+For improved debuggability, we've added [Sentry](https://sentry.io/welcome?utm_source=simongrimm&utm_medium=paid-community&utm_campaign=mobile-fy25q3-builders&utm_content=partner-react-native-mobile-learnmore&code=simongrimm) to the project.
 
 Additional features:
 
@@ -10,7 +10,7 @@ Additional features:
 - [Convex Database](https://docs.convex.dev/database) for data storage
 - [Convex File Storage](https://docs.convex.dev/file-storage) for file storage
 - [Convex Actions](https://supabase.com/edge-functions) for push notifications
-- [Sentry](https://docs.sentry.io/platforms/javascript/react-native/) for error tracking
+- [Sentry](https://docs.sentry.io/platforms/react-native/?utm_source=simongrimm&utm_medium=paid-community&utm_campaign=mobile-fy25q3-builders&utm_content=partner-react-native-mobile-trysentry&code=simongrimm) for error tracking
 - [Haptics](https://docs.expo.dev/versions/latest/sdk/haptics/) for haptic feedback
 - [Expo Notifications](https://docs.expo.dev/versions/latest/sdk/notifications/) for push notifications
 - [Reanimated](https://docs.swmansion.com/react-native-reanimated/) for powerful animations
@@ -85,6 +85,8 @@ npx convex env set EXPO_ACCESS_TOKEN your-api-key
 <img src="./screenshots/sentry1.png" width=100%>
 <img src="./screenshots/sentry2.png" width=100%>
 <img src="./screenshots/sentry3.png" width=100%>
+<img src="./screenshots/sentry4.png" width=100%>
+<img src="./screenshots/sessionreplay.gif" width=100%>
 
 </div>
 
