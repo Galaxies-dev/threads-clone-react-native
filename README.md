@@ -18,6 +18,13 @@ Additional features:
 
 ## Setup
 
+### Environment Setup
+
+Make sure you have the [Expo CLI](https://docs.expo.dev/get-started/set-up-your-environment/) installed.
+
+Because we are using pre-built and a custom development client, you should download [Android Studio](https://developer.android.com/studio) and [Xcode](https://developer.apple.com/xcode/) to your Mac. For more information on setting up your development environment, refer to the [Expo documentation](https://docs.expo.dev/workflow/android-studio-emulator/) for Android Studio and the [React Native documentation](https://reactnative.dev/docs/environment-setup?guide=native) for Xcode.
+
+### App Setup
 To build the app, perform the following steps:
 
 1. Clone the repository
@@ -33,7 +40,7 @@ npx convex import db.zip
 
 Finally, make sure to update the `DUMMY.env` file with your own Clerk and Convex credentials and rename it to `.env`.
 
-## Push Notifications
+## Push Notifications Setup
 
 For Push Notifications, you need to set up the Expo Push Notifications like presented in the video.
 
@@ -44,7 +51,26 @@ npx convex env set EXPO_ACCESS_TOKEN your-api-key
 
 ```
 
-## Clerk Webhook
+## Clerk Setup
+
+### Authentication Setup
+
+Create a [Clerk](https://clerk.com/) account and project, then update the `convex/auth.config.js` file with your `domain` and `applicationID`.
+
+```js
+export default {
+  providers: [
+    {
+      domain: 'https://your-clerk-domain.clerk.accounts.dev',
+      applicationID: 'your-clerk-application-id',
+    },
+  ],
+};
+```
+
+You also need to connect Convex and Clerk with a JWT template. For this, cehck out the video and [Convex docs](https://docs.convex.dev/auth/clerk).
+
+### Webhook Setup
 
 You need to set up a webhook in Clerk to handle the user creation and update events.
 
