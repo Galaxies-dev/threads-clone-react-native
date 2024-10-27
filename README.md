@@ -1,6 +1,6 @@
 # React Native Threads Clone with Clerk, Convex & Sentry
 
-This is a React Native Threads clone using [Clerk](https://go.clerk.com/WKHSBp0) for user authentication and [Convex](https://convex.com/?utm_source=youtube&utm_medium=referral&utm_campaign=yt-collab-trello-clone) for all backend logic.
+This is a React Native Threads clone using [Clerk](https://go.clerk.com/WKHSBp0) for user authentication and [Convex](https://convex.dev/?utm_source=simongrimm&utm_medium=referral&utm_campaign=yt-collab-threads-clone) for all backend logic.
 
 For improved debuggability, we've added [Sentry](https://sentry.io/welcome?utm_source=simongrimm&utm_medium=paid-community&utm_campaign=mobile-fy25q3-builders&utm_content=partner-react-native-mobile-learnmore&code=simongrimm) to the project.
 
